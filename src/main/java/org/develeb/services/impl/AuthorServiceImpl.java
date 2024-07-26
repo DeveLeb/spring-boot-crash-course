@@ -1,5 +1,8 @@
 package org.develeb.services.impl;
 
+import org.develeb.domain.entities.AuthorEntity;
+import org.develeb.repositories.AuthorRepository;
+import org.develeb.services.AuthorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,21 +11,21 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class AuthorServiceImpl implements org.develeb.services.AuthorService {
+public class AuthorServiceImpl implements AuthorService {
 
-    private org.develeb.repositories.AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(org.develeb.repositories.AuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
     @Override
-    public org.develeb.domain.entities.AuthorEntity save(org.develeb.domain.entities.AuthorEntity authorEntity) {
+    public AuthorEntity save(AuthorEntity authorEntity) {
         return authorRepository.save(authorEntity);
     }
 
     @Override
-    public List<org.develeb.domain.entities.AuthorEntity> findAll() {
+    public List<AuthorEntity> findAll() {
         return StreamSupport.stream(authorRepository
                         .findAll()
                         .spliterator(),
@@ -31,7 +34,7 @@ public class AuthorServiceImpl implements org.develeb.services.AuthorService {
     }
 
     @Override
-    public Optional<org.develeb.domain.entities.AuthorEntity> findOne(Long id) {
+    public Optional<AuthorEntity> findOne(Long id) {
         return authorRepository.findById(id);
     }
 
@@ -41,7 +44,7 @@ public class AuthorServiceImpl implements org.develeb.services.AuthorService {
     }
 
     @Override
-    public org.develeb.domain.entities.AuthorEntity partialUpdate(Long id, org.develeb.domain.entities.AuthorEntity authorEntity) {
+    public AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity) {
         authorEntity.setId(id);
 
         return authorRepository.findById(id).map(existingAuthor -> {

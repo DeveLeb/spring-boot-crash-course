@@ -1,7 +1,7 @@
 package org.develeb.repositories;
 
 import org.develeb.TestDataUtil;
-import org.develeb.domain.entities.AuthorEntity;
+import .entities.AuthorEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,18 +1,20 @@
 package org.develeb.services;
 
+import org.develeb.domain.entities.AuthorEntity;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface AuthorService {
-    org.develeb.domain.entities.AuthorEntity save(org.develeb.domain.entities.AuthorEntity authorEntity);
+    AuthorEntity save(AuthorEntity authorEntity);
 
-    List<org.develeb.domain.entities.AuthorEntity> findAll();
+    List<AuthorEntity> findAll();
 
-    Optional<org.develeb.domain.entities.AuthorEntity> findOne(Long id);
+    Optional<AuthorEntity> findOne(Long id);
 
     boolean isExists(Long id);
 
-    org.develeb.domain.entities.AuthorEntity partialUpdate(Long id, org.develeb.domain.entities.AuthorEntity authorEntity);
+    AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity);
 
     void delete(Long id);
 }

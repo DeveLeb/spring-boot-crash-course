@@ -1,7 +1,10 @@
 package org.develeb.controllers;
 
-import org.develeb.services.AuthorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.develeb.TestDataUtil;
+import org.develeb.domain.dto.AuthorDto;
+import org.develeb.domain.entities.AuthorEntity;
+import org.develeb.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +38,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatCreateAuthorSuccessfullyReturnsHttp201Created() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity testAuthorA = TestDataUtil.createTestAuthorEntityA();
         testAuthorA.setId(null);
         String authorJson = objectMapper.writeValueAsString(testAuthorA);
 
@@ -50,7 +53,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatCreateAuthorSuccessfullyReturnsSavedAuthor() throws Exception {
-        org.develeb.domain.dto.AuthorDto testAuthorA = org.develeb.TestDataUtil.createTestAuthorDtoA();
+        AuthorDto testAuthorA = TestDataUtil.createTestAuthorDtoA();
         testAuthorA.setId(null);
         String authorJson = objectMapper.writeValueAsString(testAuthorA);
 
@@ -77,7 +80,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity testAuthorEntityA = TestDataUtil.createTestAuthorEntityA();
         authorService.save(testAuthorEntityA);
 
         mockMvc.perform(
@@ -94,7 +97,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatGetAuthorReturnsHttpStatus200WhenAuthorExist() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity testAuthorEntityA = TestDataUtil.createTestAuthorEntityA();
         authorService.save(testAuthorEntityA);
 
         mockMvc.perform(
@@ -105,7 +108,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatGetAuthorReturnsAuthorWhenAuthorExist() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
         authorService.save(testAuthorEntityA);
 
         mockMvc.perform(
@@ -130,7 +133,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatFullUpdateAuthorReturnsHttpStatus404WhenNoAuthorExists() throws Exception {
-        org.develeb.domain.dto.AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
+        AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
         String authorDtoJson = objectMapper.writeValueAsString(testAuthorDtoA);
         mockMvc.perform(
                 MockMvcRequestBuilders.put("/authors/99")
@@ -141,10 +144,10 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatFullUpdateAuthorReturnsHttpStatus4200WhenAuthorExists() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
-        org.develeb.domain.entities.AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
 
-        org.develeb.domain.dto.AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
+        AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
         String authorDtoJson = objectMapper.writeValueAsString(testAuthorDtoA);
 
         mockMvc.perform(
@@ -156,10 +159,10 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatFullUpdateUpdatesExistingAuthor() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
-        org.develeb.domain.entities.AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
 
-        org.develeb.domain.entities.AuthorEntity authorDto = org.develeb.TestDataUtil.createTestAuthorB();
+        AuthorEntity authorDto = org.develeb.TestDataUtil.createTestAuthorB();
         authorDto.setId(savedAuthor.getId());
 
         String authorDtoUpdateJson = objectMapper.writeValueAsString(authorDto);
@@ -179,10 +182,10 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatPartialUpdateExistingAuthorReturnsHttpStatus20Ok() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
-        org.develeb.domain.entities.AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
 
-        org.develeb.domain.dto.AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
+        AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
         testAuthorDtoA.setName("UPDATED");
         String authorDtoJson = objectMapper.writeValueAsString(testAuthorDtoA);
 
@@ -195,10 +198,10 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatPartialUpdateExistingAuthorReturnsUpdatedAuthor() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
-        org.develeb.domain.entities.AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
 
-        org.develeb.domain.dto.AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
+        AuthorDto testAuthorDtoA = org.develeb.TestDataUtil.createTestAuthorDtoA();
         testAuthorDtoA.setName("UPDATED");
         String authorDtoJson = objectMapper.writeValueAsString(testAuthorDtoA);
 
@@ -225,8 +228,8 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatDeleteAuthorReturnsHttpStatus204ForExistingAuthor() throws Exception {
-        org.develeb.domain.entities.AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
-        org.develeb.domain.entities.AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
+        AuthorEntity testAuthorEntityA = org.develeb.TestDataUtil.createTestAuthorEntityA();
+        AuthorEntity savedAuthor = authorService.save(testAuthorEntityA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/authors/" + savedAuthor.getId())

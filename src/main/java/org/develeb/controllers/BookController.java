@@ -1,5 +1,8 @@
 package org.develeb.controllers;
 
+import org.develeb.domain.dto.BookDto;
+import org.develeb.domain.entities.BookEntity;
+import org.develeb.mappers.Mapper;
 import org.develeb.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +16,21 @@ import java.util.stream.Collectors;
 public class BookController {
 
     private BookService bookService;
-    private org.develeb.mappers.Mapper<org.develeb.domain.entities.BookEntity, org.develeb.domain.dto.BookDto> bookMapper;
+    private Mapper<BookEntity, BookDto> bookMapper;
 
-    public BookController(org.develeb.mappers.Mapper<org.develeb.domain.entities.BookEntity, org.develeb.domain.dto.BookDto> bookMapper, BookService bookService) {
+    public BookController(Mapper<BookEntity, BookDto> bookMapper, BookService bookService) {
         this.bookMapper = bookMapper;
         this.bookService = bookService;
     }
 
     @PutMapping(path = "/books/{isbn}")
-    public ResponseEntity<org.develeb.domain.dto.BookDto> createUpdateBook(@PathVariable String isbn, @RequestBody org.develeb.domain.dto.BookDto bookDto) {
-        org.develeb.domain.entities.BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable String isbn, @RequestBody BookDto bookDto) {
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
         boolean bookExists = bookService.isExists(isbn);
-        org.develeb.domain.entities.BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
-        org.develeb.domain.dto.BookDto savedUpdatedBookDto = bookMapper.mapTo(savedBookEntity);
+        BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
+        BookDto savedUpdatedBookDto = bookMapper.mapTo(savedBookEntity);
 
-        if(bookExists){
+        if (bookExists) {
             return new ResponseEntity(savedUpdatedBookDto, HttpStatus.OK);
         } else {
             return new ResponseEntity(savedUpdatedBookDto, HttpStatus.CREATED);
@@ -35,35 +38,28 @@ public class BookController {
     }
 
     @PatchMapping(path = "/books/{isbn}")
-    public ResponseEntity<org.develeb.domain.dto.BookDto> partialUpdateBook(
-            @PathVariable("isbn") String isbn,
-            @RequestBody org.develeb.domain.dto.BookDto bookDto
-    ){
-        if(!bookService.isExists(isbn)){
+    public ResponseEntity<BookDto> partialUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
+        if (!bookService.isExists(isbn)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        org.develeb.domain.entities.BookEntity bookEntity = bookMapper.mapFrom(bookDto);
-        org.develeb.domain.entities.BookEntity updatedBookEntity = bookService.partialUpdate(isbn, bookEntity);
-        return new ResponseEntity<>(
-                bookMapper.mapTo(updatedBookEntity),
-                HttpStatus.OK);
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        BookEntity updatedBookEntity = bookService.partialUpdate(isbn, bookEntity);
+        return new ResponseEntity<>(bookMapper.mapTo(updatedBookEntity), HttpStatus.OK);
 
     }
 
     @GetMapping(path = "/books")
-    public List<org.develeb.domain.dto.BookDto> listBooks() {
-        List<org.develeb.domain.entities.BookEntity> books = bookService.findAll();
-        return books.stream()
-                .map(bookMapper::mapTo)
-                .collect(Collectors.toList());
+    public List<BookDto> listBooks() {
+        List<BookEntity> books = bookService.findAll();
+        return books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
     }
 
     @GetMapping(path = "/books/{isbn}")
-    public ResponseEntity<org.develeb.domain.dto.BookDto> getBook(@PathVariable("isbn") String isbn) {
-        Optional<org.develeb.domain.entities.BookEntity> foundBook = bookService.findOne(isbn);
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+        Optional<BookEntity> foundBook = bookService.findOne(isbn);
         return foundBook.map(bookEntity -> {
-            org.develeb.domain.dto.BookDto bookDto = bookMapper.mapTo(bookEntity);
+            BookDto bookDto = bookMapper.mapTo(bookEntity);
             return new ResponseEntity<>(bookDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

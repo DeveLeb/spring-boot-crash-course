@@ -1,5 +1,7 @@
 package org.develeb.services;
 
+
+import org.develeb.domain.entities.BookEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -8,17 +10,17 @@ import java.util.Optional;
 
 public interface BookService {
 
-    org.develeb.domain.entities.BookEntity createUpdateBook(String isbn, org.develeb.domain.entities.BookEntity book);
+    BookEntity createUpdateBook(String isbn, BookEntity book);
 
-    List<org.develeb.domain.entities.BookEntity> findAll();
+    List<BookEntity> findAll();
 
-    Page<org.develeb.domain.entities.BookEntity> findAll(Pageable pageable);
+    Page<BookEntity> findAll(Pageable pageable);
 
-    Optional<org.develeb.domain.entities.BookEntity> findOne(String isbn);
+    Optional<BookEntity> findOne(String isbn);
 
     boolean isExists(String isbn);
 
-    org.develeb.domain.entities.BookEntity partialUpdate(String isbn, org.develeb.domain.entities.BookEntity bookEntity);
+    BookEntity partialUpdate(String isbn, BookEntity bookEntity);
 
     void delete(String isbn);
 

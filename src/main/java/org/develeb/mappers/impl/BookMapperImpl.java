@@ -1,10 +1,13 @@
 package org.develeb.mappers.impl;
 
+import org.develeb.domain.dto.BookDto;
+import org.develeb.domain.entities.BookEntity;
+import org.develeb.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookMapperImpl implements org.develeb.mappers.Mapper<org.develeb.domain.entities.BookEntity, org.develeb.domain.dto.BookDto> {
+public class BookMapperImpl implements Mapper<BookEntity, BookDto> {
 
     private ModelMapper modelMapper;
 
@@ -13,12 +16,12 @@ public class BookMapperImpl implements org.develeb.mappers.Mapper<org.develeb.do
     }
 
     @Override
-    public org.develeb.domain.dto.BookDto mapTo(org.develeb.domain.entities.BookEntity bookEntity) {
-        return modelMapper.map(bookEntity, org.develeb.domain.dto.BookDto.class);
+    public BookDto mapTo(BookEntity bookEntity) {
+        return modelMapper.map(bookEntity, BookDto.class);
     }
 
     @Override
-    public org.develeb.domain.entities.BookEntity mapFrom(org.develeb.domain.dto.BookDto bookDto) {
-        return modelMapper.map(bookDto, org.develeb.domain.entities.BookEntity.class);
+    public BookEntity mapFrom(BookDto bookDto) {
+        return modelMapper.map(bookDto, BookEntity.class);
     }
 }

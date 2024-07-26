@@ -1,10 +1,13 @@
 package org.develeb.mappers.impl;
 
+import org.develeb.domain.dto.AuthorDto;
+import org.develeb.domain.entities.AuthorEntity;
+import org.develeb.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorMapperImpl implements org.develeb.mappers.Mapper<org.develeb.domain.entities.AuthorEntity, org.develeb.domain.dto.AuthorDto> {
+public class AuthorMapperImpl implements Mapper<AuthorEntity, AuthorDto> {
 
     private ModelMapper modelMapper;
 
@@ -13,12 +16,12 @@ public class AuthorMapperImpl implements org.develeb.mappers.Mapper<org.develeb.
     }
 
     @Override
-    public org.develeb.domain.dto.AuthorDto mapTo(org.develeb.domain.entities.AuthorEntity authorEntity) {
-        return modelMapper.map(authorEntity, org.develeb.domain.dto.AuthorDto.class);
+    public AuthorDto mapTo(AuthorEntity authorEntity) {
+        return modelMapper.map(authorEntity, AuthorDto.class);
     }
 
     @Override
-    public org.develeb.domain.entities.AuthorEntity mapFrom(org.develeb.domain.dto.AuthorDto authorDto) {
-        return modelMapper.map(authorDto, org.develeb.domain.entities.AuthorEntity.class);
+    public AuthorEntity mapFrom(AuthorDto authorDto) {
+        return modelMapper.map(authorDto, AuthorEntity.class);
     }
 }
